@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+#include <cstring>
+using namespace std;
+using pii = pair<int, int>;
+
+constexpr static pii DIRS[4] = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+
+int n, m;
+char c;
+
+// inline int convert(int i, int j) {
+//     return i * m + j;
+// }
+
+// int read() {
+//     int ret = 0, c = 0;
+//     for (; !isdigit(c); c = getchar())
+//         ;
+//     for (; isdigit(c); c = getchar())
+//         ret = (ret << 3) + (ret << 1) + (c ^ 48);
+//     return ret;
+// }
+
+constexpr int MX = 2005;
+char mp[MX][MX];
+bool vis[MX][MX];
+
+int main(int argc, char *argv[]) {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    memset(vis, 0, sizeof vis);
+    cin >> n >> m;
+    pii st, en;
+    vector<pii> tp;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            cin >> mp[i][j];
+            char c = mp[i][j];
+            if (c == 'N') {
+                st = make_pair(i, j);
+            } else if (c == 'C') {
+                en = make_pair(i, j);
+            } else if (c == 'E') {
+                tp.emplace_back(i, j);
+            }
+        }
+    }
+    queue<pair<pii, int>> q;
+    bool tp_used = false;
+    q.emplace(st, 0);
+    vis[st.first][st.second] = true;
+    while (!q.empty()) {
+        auto p = q.front();
+        q.pop();
+        pii xy = p.first;
+        int step = p.second;
+        // cout << xy.first << " " << xy.second << endl;
+        if (xy == en) {
+            cout << step << endl;
+            return 0;
+        }
+        for (pii dir : DIRS) {
+            int x = xy.first + dir.first, y = xy.second + dir.second;
+            if (x < 0 || x >= n || y < 0 || y >= m || mp[x][y] == 'M')
+                continue;
+            pii tar = make_pair(x, y);
+            if (!vis[x][y]) {
+                if (mp[x][y] == 'E' && !tp_used) {
+                    tp_used = true;
+                    for (auto tpxy : tp) {
+                        vis[tpxy.first][tpxy.second] = true;
+                        q.emplace(tpxy, step + 1);
+                    }
+                } else {
+                    vis[x][y] = true;
+                    q.emplace(tar, step + 1);
+                }
+            }
+        }
+    }
+    cout << "Bad Eureka" << endl;
+    return 0;
+}
