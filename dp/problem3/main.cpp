@@ -23,23 +23,16 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < n; ++i) {
         f = i & 1;
         int vo = read();
+        // 如果不选这个物品
         for (int j = 0; j < v; ++j)
-            dp[f ^ 1][j] = 0;
+            dp[f ^ 1][j] = dp[f][j];
+        // 如果选择这个物品
         for (int j = 0; j < v; ++j) {
-            dp[f ^ 1][j] += dp[f][j];
             dp[f ^ 1][(j + vo) % v] += dp[f][j];
-            dp[f ^ 1][j] %= MOD;
             dp[f ^ 1][(j + vo) % v] %= MOD;
         }
-        // cout << "#" << i << ":" << endl;
-        // for (int i = 0; i < 2; ++i) {
-        //     for (int j = 0; j < v; ++j) {
-        //         cout << dp[i][j] << " ";
-        //     }
-        //     cout << endl;
-        // }
-        // cout << endl;
     }
+    // dp[f ^ 1][0] - 1 是因为要去掉空集 但是因为有可能是负数(-1) 所以要加上MOD
     cout << (dp[f ^ 1][0] - 1 + MOD) % MOD << endl;
     return 0;
 }
