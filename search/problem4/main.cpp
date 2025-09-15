@@ -8,19 +8,6 @@ constexpr static pii DIRS[4] = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
 int n, m;
 char c;
 
-// inline int convert(int i, int j) {
-//     return i * m + j;
-// }
-
-// int read() {
-//     int ret = 0, c = 0;
-//     for (; !isdigit(c); c = getchar())
-//         ;
-//     for (; isdigit(c); c = getchar())
-//         ret = (ret << 3) + (ret << 1) + (c ^ 48);
-//     return ret;
-// }
-
 constexpr int MX = 2005;
 char mp[MX][MX];
 bool vis[MX][MX];
@@ -31,6 +18,7 @@ int main(int argc, char *argv[]) {
     memset(vis, 0, sizeof vis);
     cin >> n >> m;
     pii st, en;
+    // 传送点集合
     vector<pii> tp;
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < m; ++j) {
@@ -54,7 +42,7 @@ int main(int argc, char *argv[]) {
         q.pop();
         pii xy = p.first;
         int step = p.second;
-        // cout << xy.first << " " << xy.second << endl;
+        // 到达终点
         if (xy == en) {
             cout << step << endl;
             return 0;
@@ -65,12 +53,14 @@ int main(int argc, char *argv[]) {
                 continue;
             pii tar = make_pair(x, y);
             if (!vis[x][y]) {
+                // 传送点且传送点没用过
                 if (mp[x][y] == 'E' && !tp_used) {
                     tp_used = true;
                     for (auto tpxy : tp) {
                         vis[tpxy.first][tpxy.second] = true;
                         q.emplace(tpxy, step + 1);
                     }
+                    // 不是传送点
                 } else {
                     vis[x][y] = true;
                     q.emplace(tar, step + 1);

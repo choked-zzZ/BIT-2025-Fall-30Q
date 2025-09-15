@@ -17,7 +17,9 @@ int main(int argc, char *argv[]) {
             neg.push_back(make_pair(a, b));
         }
     }
+    // 对于b>0的，按a升序排序
     sort(pos.begin(), pos.end(), [](pii p1, pii p2) { return p1.first < p2.first; });
+    // 对于b<0的，按a+b降序排序
     sort(neg.begin(), neg.end(),
          [](pii p1, pii p2) { return p1.first + p1.second > p2.first + p2.second; });
     ll a = 0, acc = 0;

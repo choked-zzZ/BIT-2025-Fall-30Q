@@ -2,17 +2,9 @@
 using namespace std;
 using pii = pair<int, int>;
 
-// int read() {
-//     int ret = 0, c;
-//     for (; !isdigit(c); c = getchar())
-//         ;
-//     for (; isdigit(c); c = getchar())
-//         ret = (ret << 3) + (ret << 1) + (c ^ 48);
-//     return ret;
-// }
-
 char mp[1005][1005];
 bool vis[1005][1005];
+// 四个方向
 constexpr int dx[4] = {1, -1, 0, 0};
 constexpr int dy[4] = {0, 0, 1, -1};
 
@@ -39,13 +31,18 @@ int main(int argc, char *argv[]) {
         q.pop();
         pii xy = p.first;
         int step = p.second;
+        // 向四个方向前进
         for (int i = 0; i < 4; ++i) {
             for (int j = 1; j <= k; ++j) {
+                // 新坐标
                 int x = xy.first + dx[i] * j, y = xy.second + dy[i] * j;
+                // 越界或者障碍物
                 if (x < 1 || x > n || y < 1 || y > m || mp[x][y] == '#')
                     break;
                 pii tar = make_pair(x, y);
+                // 没访问过
                 if (!vis[x][y]) {
+                    // 到达终点 之前那样写也可以 但是肯定会慢一点
                     if (tar == en) {
                         cout << step + 1 << endl;
                         return 0;

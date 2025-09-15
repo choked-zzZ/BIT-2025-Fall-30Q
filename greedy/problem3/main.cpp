@@ -2,6 +2,7 @@
 using namespace std;
 using ull = unsigned long long;
 
+// 树状数组
 constexpr int MX = 300005;
 int n, tree[MX], n_max_val;
 
